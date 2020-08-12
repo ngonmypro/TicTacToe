@@ -38,7 +38,6 @@ class GameController extends Controller
           }else {
             echo "O";
           }
-
         }
 
       }else {
@@ -52,6 +51,5 @@ class GameController extends Controller
           echo "X";
         }
       }
-
     }
 }
