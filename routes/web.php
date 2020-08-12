@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/game', 'GameController@index')->name('game.index');
+Route::post('/game', 'GameController@process')->name('game.action');
