@@ -17,5 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/game', 'GameController@index')->name('game.index');
-Route::post('/game', 'GameController@process')->name('game.action');
+// Route::get('/testgame', 'GameController@index')->name('game.index');
+// Route::post('/testgame', 'GameController@process')->name('game.action');
+
+Route::resource('/newgame', 'NewgameController');
+Route::post('/newgame/game', 'NewgameController@sizetable')->name('newgame');
+Route::any('/newgame/game/ChkProcess', 'NewgameController@process');
