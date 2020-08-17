@@ -3,7 +3,6 @@
 @section('content')
   <div class="container"><br><br>
     <h1 align="center">Input size table play Tic-Tac-Toe</h1><br>
-    <!-- <form action="{{URL::route('game')}}" method="post"> -->
     <form action="{{route('newgame')}}" method="post">
       {{csrf_field()}}
       <div class="col-md-12">

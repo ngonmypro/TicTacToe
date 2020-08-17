@@ -3,11 +3,11 @@
 @section('content')
 <style media="screen">
 .input {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   display: inline;
   margin-top: 4px;
-  font-size: 100px;
+  font-size: 75px;
   text-align: center;
   cursor: pointer;
 }
@@ -25,14 +25,13 @@
             <input type="text" class="form-control input" id="TicTacToe{{$i}}" onclick="JavaScript:SelectChannel('{{$i}}');" value="" readonly>
         @endfor
         <br><br>
-        <input type="text" id="size" value="{{ $size }}">
+        <input type="hidden" id="size" value="{{ $size }}">
+        <input type="hidden" name="" id="data" value="X">
           <!-- <button type="submit" name="button" class="btn btn-outline-success">Check</button> -->
       <!-- </form> -->
       <div class="form-group" align="center">
-        <a href="" class="btn btn-outline-info">New Game</a>
+        <a href="{{url('/newgame')}}" class="btn btn-outline-info">New Game</a>
       </div>
-      <input type="text" name="" id="data" value="X">
-      <input type="text" name="" id="idTicTacToe" value="">
     </div>
   </div>
 
@@ -57,7 +56,6 @@
           alert("Please select another channel.");
         }else {
           $("#TicTacToe"+id).val(data);
-          $("#idTicTacToe").val(id);
           Process();
         }
     }
@@ -66,32 +64,30 @@
       var size = $("#size").val();
       var TicTacToe = "";
       var data = $("#data").val();
-      var idTicTacToe = $("#idTicTacToe").val();
+
       for (var i = 1; i <= size*size; i++) {
-        if (i == 1) {
-          TicTacToe = $("#TicTacToe"+i).val();
+        if ($("#TicTacToe"+i).val() != "") {
+          TicTacToe = TicTacToe + $("#TicTacToe"+i).val();
         }else {
-          TicTacToe = TicTacToe + "," + $("#TicTacToe"+i).val();
+          TicTacToe = TicTacToe + "-";
         }
       }
-      var sentdata = "size=" + size + "&data=" + data + "&idTicTacToe=" + idTicTacToe + "&TicTacToe=" + TicTacToe;
-      // alert(sentdata)
+
+      var sentdata = "size=" + size + "&data=" + data + "&TicTacToe=" + TicTacToe;
       $.ajax({
           url: '{{url('/newgame/game/ChkProcess')}}',
           method: 'GET',
           data: sentdata,
           dataType: "text",
           success:function(result) {
-            // alert(result);
-            // if (result == "X" || result == "O") {
-            //   $("#comment").html(result + " Select Channel");
-            //   $("#data").val(result);
-            //   // $(".btn").show();
-            // }else {
-            //   $("#comment").html(result);
-            //   $("#data").val("");
-            //   $(".btn").show();
-            // }
+            if (result == "X" || result == "O") {
+              $("#comment").html(result + " Select Channel");
+              $("#data").val(result);
+            }else {
+              $("#comment").html(result);
+              $("#data").val("");
+              $(".btn").show();
+            }
           }
       });
     }
