@@ -29,25 +29,17 @@ class NewgameController extends Controller
     }
 
     function generate_win_lines(){
-        $this->win_lines = []; // clear variable first just in case.
-        // This is a special nested for loop system, where it does simultaneous win line generation for all three line types.
+        $this->win_lines = [];
         for ($a = 0; $a < $this->size; $a++) {
-            $horizontal = []; // temporary array
-            $vertical   = []; // temporary array
-            // Iteration 2
+            $horizontal = [];
+            $vertical   = [];
             for ($b = 0; $b < $this->size; $b++) {
-                // This will append to the temporary row array the position of the row.
                 $horizontal[] = $this->size * $a + $b;
-                // This will append to the temporary column array the position of the column
                 $vertical[]   = $this->size * $b + $a;
             }
-            // Add the generated row to the overall array.
             $this->win_lines['Horizontal']['Row ' . ($a + 1)]  = $horizontal;
-            // Add the generated column to the overall array
             $this->win_lines['Vertical']['Column ' . ($a + 1)] = $vertical;
-            // This will append to the overall array the position of the diagonals
             $this->win_lines['Diagonal']['backslash'][]        = $this->size * $a + $a;
-            // This will append to the overall array the position of the diagonals
             $this->win_lines['Diagonal']['forward slash'][]    = $this->size * ($a + 1) - ($a + 1);
         }
     }
@@ -69,19 +61,13 @@ class NewgameController extends Controller
     }
 
     function win_check($token) {
-        // If called from game_check, check board for winning line for token
-        $this->winning_line = []; // clear the variable first, just in case.
-        // Iterating through all the possible winning lines.
+        $this->winning_line = []; 
         foreach ($this->win_lines as $line_type => $lines) {
-            // Iterating through each line.
             foreach ($lines as $line_name => $line) {
-                $this->winning_line[0] = $line; // Preemptively store winning line position
-                $check_value           = 0;     // A temporary calculation variable.
-                // Checking each cell within a line
+                $this->winning_line[0] = $line;
+                $check_value = 0;
                 foreach ($line as $pos) {
-                    // Checks if the token matches what's currently in that game cell.
                     if ($this->TicTacToeArray[$pos] != $token) {
-                        // Token does not match checked position.
                         if (debug_backtrace()[1]['function'] == 'game_check') {
                             break;
                         }
@@ -90,21 +76,17 @@ class NewgameController extends Controller
                     }
                 }
                 if (debug_backtrace()[1]['function'] == 'game_check') {
-                    // The overall game for winning line.
                     if ($check_value == $this->size) {
-                        // It's a winner.
                         return true;
                     }
                 }
             }
         }
-        // If we have reached this point, then there are no wins for that token.
-        $this->winning_line = []; // Clear the winning_line variable.
+
+        $this->winning_line = [];
         if (debug_backtrace()[1]['function'] == 'game_check') {
-            // For the game_check function
             return false;
         } else {
-            // an unintended function called this...
             return null;
         }
     }
