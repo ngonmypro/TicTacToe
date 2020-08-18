@@ -77,7 +77,6 @@ class NewgameController extends Controller
             foreach ($lines as $line_name => $line) {
                 $this->winning_line[0] = $line; // Preemptively store winning line position
                 $check_value           = 0;     // A temporary calculation variable.
-                $win_move              = 0;     // The Game Board Cell location.
                 // Checking each cell within a line
                 foreach ($line as $pos) {
                     // Checks if the token matches what's currently in that game cell.
